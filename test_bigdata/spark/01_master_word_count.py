@@ -33,8 +33,11 @@ try:
     # Bước REDUCE: Cộng dồn số lần xuất hiện của từng từ có cùng key
     word_counts = word_pairs.reduceByKey(lambda a, b: a + b)
 
-    print("===== KẾT QUẢ WORD COUNT (20 TỪ ĐẦU TIÊN) =====")
-    for word, count in word_counts.take(20):
+    # Sắp xếp và lấy 20 từ xuất hiện nhiều nhất (Top 20)
+    top_20_words = word_counts.takeOrdered(20, key=lambda x: -x[1])
+
+    print("===== KẾT QUẢ WORD COUNT (TOP 20 TỪ XUẤT HIỆN NHIỀU NHẤT) =====")
+    for word, count in top_20_words:
         print(f"{word:20s}: {count}")
 
     print("===== TỔNG SỐ TỪ TRONG VĂN BẢN =====")
