@@ -33,6 +33,7 @@ services:
     entrypoint: ["/bin/bash", "-c", "tr -d '\\r' < /usr/local/bin/entrypoint.sh | /bin/bash"]
     environment:
       - NODE_ROLE=${NODE_ROLE:-master}
+      - NODE_HOSTNAME=${NODE_HOSTNAME:-anh24162006-master}
     volumes:
       - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
       - ./config/core-site.xml:/home/hadoopanh24162006/hadoop/etc/hadoop/core-site.xml
@@ -44,6 +45,7 @@ services:
       - ./config/workers:/home/hadoopanh24162006/spark/conf/workers
       - ./config/hive-site.xml:/home/hadoopanh24162006/hive/conf/hive-site.xml
       - ./config/spark-defaults.conf:/home/hadoopanh24162006/spark/conf/spark-defaults.conf
+      - ./offline_pkgs/commons-collections-3.2.2.jar:/home/hadoopanh24162006/hive/lib/commons-collections-3.2.2.jar
       - ./test_bigdata:/home/hadoopanh24162006/test_bigdata
       - hadoop_data:/home/hadoopanh24162006/hadoop/hdfs
     restart: unless-stopped

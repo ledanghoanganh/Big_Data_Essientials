@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     openjdk-17-jdk openssh-server openssh-client python3 python3-pip \
-    iputils-ping net-tools nano curl sudo \
+    iputils-ping iproute2 net-tools nano curl sudo \
     && rm -rf /var/lib/apt/lists/*
 
 # User chung cho toàn cụm
@@ -35,6 +35,9 @@ RUN mv hadoop-3.5.0 hadoop && \
     mv apache-hive-4.1.0-bin hive && \
     mkdir -p hadoop/hdfs/namenode hadoop/hdfs/datanode hadoop/nm-local-dir hadoop/logs && \
     chown -R ${HADOOP_USER}:${HADOOP_USER} /home/${HADOOP_USER}
+
+# Bổ sung thư viện commons-collections cho Hive
+COPY --chown=${HADOOP_USER}:${HADOOP_USER} offline_pkgs/commons-collections-3.2.2.jar /home/${HADOOP_USER}/hive/lib/
 
 # Khai báo biến môi trường hệ thống
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
