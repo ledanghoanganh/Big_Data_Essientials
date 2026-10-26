@@ -1,0 +1,5 @@
+Các files và Docker Images lưu ở trong drive này nha cô: 
+https://drive.google.com/drive/folders/173BeqZySsbZ7Jojn88-nY6EcHPLD3Aie?usp=drive_link
+
+Link Github project của nhóm 2 ở đây ạ: 
+https://github.com/ledanghoanganh/Big_Data_Essientials

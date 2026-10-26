@@ -10,7 +10,6 @@ from pyspark.sql.functions import col
 spark = (
     SparkSession.builder
     .appName("03_WordMedian_CustomerReview_Slave2_Nguyen")
-    .config("spark.driver.host", "nguyen-slave2")
     .getOrCreate()
 )
 

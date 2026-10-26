@@ -143,16 +143,16 @@ Big_Data_Essientials/
 Sau khi container khởi chạy và nhận IP Tailscale, để trình duyệt máy thật mở được Web UI và công cụ DBeaver kết nối được bằng tên máy (`anh24162006-master`), hãy tra cứu IP Tailscale của từng node trên Tailscale Admin Console (hoặc qua lệnh `tailscale status`) rồi thêm vào file `hosts` máy thật:
 - **Trên Windows** (PowerShell Administrator):
   ```powershell
-  # Thay thế các địa chỉ IP bên dưới bằng đúng IP Tailscale (100.x.y.z) thực tế của 4 máy
-  Add-Content -Path "$env:SystemRoot\System32\drivers\etc\hosts" -Value "`n100.105.99.31 anh24162006-master`n100.123.200.77 hoc-slave1`n100.106.204.115 nguyen-slave2`n100.112.244.83 anh24133004-slave3"
+  # Ánh xạ theo đúng dải IP Tailscale (100.x.y.z) thực tế của 4 container:
+  Add-Content -Path "$env:SystemRoot\System32\drivers\etc\hosts" -Value "`n100.93.138.6 anh24162006-master`n100.83.192.69 hoc-slave1`n100.99.120.86 nguyen-slave2`n100.111.208.15 anh24133004-slave3"
   ```
 - **Trên Linux / macOS**:
   ```bash
   sudo tee -a /etc/hosts <<EOF
-  100.105.99.31 anh24162006-master
-  100.123.200.77 hoc-slave1
-  100.106.204.115 nguyen-slave2
-  100.112.244.83 anh24133004-slave3
+  100.93.138.6 anh24162006-master
+  100.83.192.69 hoc-slave1
+  100.99.120.86 nguyen-slave2
+  100.111.208.15 anh24133004-slave3
   EOF
   ```
 
@@ -456,22 +456,22 @@ spark-submit --master yarn ~/test_bigdata/spark/05_slave3_anh_sales_by_product.p
 
 ### Bước 8: Danh Sách Giao Diện Quản Trị Web UI
 
-Sau khi hoàn tất cấu hình file `hosts` ở [Bước 1.3](#13-ánh-xạ-hostname-vào-file-hosts-của-máy-thật-host-os), mở trực tiếp bằng trình duyệt trên máy thật:
+Truy cập trực tiếp bằng địa chỉ IP Tailscale của các container trên trình duyệt (hoặc qua `localhost:<cổng>` trên máy tính chứa container tương ứng nếu có map port):
 
-| Dịch vụ | Địa chỉ URL truy cập Web UI | Chức năng giám sát |
+| Dịch vụ | Địa chỉ URL truy cập Web UI (Theo IP Tailscale) | Chức năng giám sát |
 | :--- | :--- | :--- |
-| **HDFS NameNode** | [http://anh24162006-master:9870](http://anh24162006-master:9870) | Quản lý cây thư mục HDFS, dung lượng lưu trữ, trạng thái các DataNode |
-| **YARN ResourceManager** | [http://anh24162006-master:8088](http://anh24162006-master:8088) | Theo dõi hàng đợi YARN, phân bổ CPU/RAM, trạng thái các Container và Job |
-| **MapReduce JobHistory** | [http://anh24162006-master:19888](http://anh24162006-master:19888) | Xem lại lịch sử các tác vụ MapReduce và log thực thi chi tiết |
-| **HiveServer2 Web UI** | [http://anh24162006-master:10002](http://anh24162006-master:10002) | Giám sát các phiên kết nối JDBC, câu lệnh HiveQL đang thực thi |
-| **Spark Master UI** | [http://anh24162006-master:8080](http://anh24162006-master:8080) | Quản lý cụm Spark Standalone, danh sách Worker, tài nguyên lõi/bộ nhớ |
-| **Spark Application UI** | [http://anh24162006-master:4040](http://anh24162006-master:4040) | Hiển thị đồ thị DAG thực thi khi có job PySpark đang chạy |
-| **HDFS DataNode Worker 1**| [http://hoc-slave1:9864](http://hoc-slave1:9864) | Thông tin block và dung lượng đĩa của DataNode 1 |
-| **YARN NodeManager Worker 1**| [http://hoc-slave1:8042](http://hoc-slave1:8042) | Giám sát tài nguyên và log cục bộ của NodeManager 1 |
-| **HDFS DataNode Worker 2**| [http://nguyen-slave2:9864](http://nguyen-slave2:9864) | Thông tin block và dung lượng đĩa của DataNode 2 |
-| **YARN NodeManager Worker 2**| [http://nguyen-slave2:8042](http://nguyen-slave2:8042) | Giám sát tài nguyên và log cục bộ của NodeManager 2 |
-| **HDFS DataNode Worker 3**| [http://anh24133004-slave3:9864](http://anh24133004-slave3:9864) | Thông tin block và dung lượng đĩa của DataNode 3 |
-| **YARN NodeManager Worker 3**| [http://anh24133004-slave3:8042](http://anh24133004-slave3:8042) | Giám sát tài nguyên và log cục bộ của NodeManager 3 |
+| **HDFS NameNode** | [http://100.93.138.6:9870](http://100.93.138.6:9870) | Quản lý cây thư mục HDFS, dung lượng lưu trữ, trạng thái các DataNode |
+| **YARN ResourceManager** | [http://100.93.138.6:8088](http://100.93.138.6:8088) | Theo dõi hàng đợi YARN, phân bổ CPU/RAM, trạng thái các Container và Job |
+| **MapReduce JobHistory** | [http://100.93.138.6:19888](http://100.93.138.6:19888) | Xem lại lịch sử các tác vụ MapReduce và log thực thi chi tiết |
+| **HiveServer2 Web UI** | [http://100.93.138.6:10002](http://100.93.138.6:10002) | Giám sát các phiên kết nối JDBC, câu lệnh HiveQL đang thực thi |
+| **Spark Master UI** | [http://100.93.138.6:8080](http://100.93.138.6:8080) | Quản lý cụm Spark Standalone, danh sách Worker, tài nguyên lõi/bộ nhớ |
+| **Spark Application UI** | [http://100.93.138.6:4040](http://100.93.138.6:4040) | Hiển thị đồ thị DAG thực thi khi có job PySpark đang chạy |
+| **HDFS DataNode Worker 1**| [http://100.83.192.69:9864](http://100.83.192.69:9864) | Thông tin block và dung lượng đĩa của DataNode 1 (`hoc-slave1`) |
+| **YARN NodeManager Worker 1**| [http://100.83.192.69:8042](http://100.83.192.69:8042) | Giám sát tài nguyên và log cục bộ của NodeManager 1 (`hoc-slave1`) |
+| **HDFS DataNode Worker 2**| [http://100.99.120.86:9864](http://100.99.120.86:9864) | Thông tin block và dung lượng đĩa của DataNode 2 (`nguyen-slave2`) |
+| **YARN NodeManager Worker 2**| [http://100.99.120.86:8042](http://100.99.120.86:8042) | Giám sát tài nguyên và log cục bộ của NodeManager 2 (`nguyen-slave2`) |
+| **HDFS DataNode Worker 3**| [http://100.111.208.15:9864](http://100.111.208.15:9864) | Thông tin block và dung lượng đĩa của DataNode 3 (`anh24133004-slave3`) |
+| **YARN NodeManager Worker 3**| [http://100.111.208.15:8042](http://100.111.208.15:8042) | Giám sát tài nguyên và log cục bộ của NodeManager 3 (`anh24133004-slave3`) |
 
 ---
 
